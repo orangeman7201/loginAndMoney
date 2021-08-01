@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-import TodoList from './components/TodoList.vue';
+import Login from './components/Login.vue';
 import store from './store';
 import router from './router';
+import Firebase from "./firebase" //追加
 
 
+Firebase.init();
 
-
-Vue.config.productionTip = true
-Vue.component('TodoList', TodoList);
+Vue.config.productionTip = false
+Vue.component('Login', Login);
 
 
 new Vue({
