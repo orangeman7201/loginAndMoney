@@ -22,46 +22,38 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-
   export default {
-    data: function() {
-      return {
-        username: '',
-        email: '',
-        password: ''
-      }
+    computed: {
+      username: {
+        get() {
+          return this.$store.getters.username;
+        },
+        set(value) {
+          this.$store.dispatch("updateUsername", value);
+        }
+      },
+      email: {
+        get() {
+          return this.$store.getters.email;
+        },
+        set(value) {
+          this.$store.dispatch('updateEmail', value)
+        }
+      },
+      password: {
+        get() {
+          return this.$store.getters.password;
+        },
+        set(value) {
+          this.$store.dispatch('updatePassword', value)
+        }
+      },
     },
     methods: {
-      registerUser(){
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .then(result => {
-          const user = result.user
-          if(user) {
-            const userId = user.uid;
-            const userInitialData = {
-              userId: userId,
-              email: this.email,
-              username: this.username,
-              password: this.password,
-            }
-            firebase.firestore().collection('users').doc(userId).set(userInitialData)
-             .then(function() {
-               console.log('ユーザーが作成されました!')
-             })
-             .catch(function() {
-               console.log('残念..失敗...')
-             })
-          }
-        })
-        .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        alert(errorCode)
-        alert(errorMessage)
-    });
+      registerUser() {
+        this.$store.dispatch('registerUser')
       }
+        
     },
   }
 </script>
